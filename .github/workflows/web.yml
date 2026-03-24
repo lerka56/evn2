@@ -6,6 +6,12 @@ on:
   pull_request:
     branches: [ main, master ]
 
+# Добавьте разрешения для GITHUB_TOKEN
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,7 +29,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         
     - name: Install dependencies
-      run: npm ci
+      run: npm install
       
     - name: Run tests
       run: npm test
@@ -36,3 +42,7 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./dist
+        # Добавьте эти параметры для более надежной работы
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
+        keep_files: false
